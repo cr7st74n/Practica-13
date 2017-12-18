@@ -150,7 +150,12 @@ public class FormularioFich extends JInternalFrame implements ActionListener {
 		switch (comando) {
 		case "btnGuardar":
 			
-			guardarDatosR();
+			try {
+				guardarDatosR();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			costo.setText("");
 			nombreEquipo.setText("");
@@ -164,7 +169,7 @@ public class FormularioFich extends JInternalFrame implements ActionListener {
 		}
 	}
 	
-public void guardarDatosR()  {
+public void guardarDatosR() throws IOException  {
 	
 			String costo1=costo.getText().toString().toLowerCase();
 			String nombreEquipo1=nombreEquipo.getText().toString().toLowerCase();
@@ -179,9 +184,16 @@ public void guardarDatosR()  {
 			
 			if (ficha == null) {
 				JOptionPane.showMessageDialog(null, "Capitan ya registrado en otro equipo");
-			}else if(ficha != null && a==2){
-				gf.newFicha(costo1, nombreEquipo1, capitan1, nombreJug1, apellidoJug1);
-			}
+			}else if(ficha != null && a==2)
+				try {
+					{
+						
+							gf.newFicha(costo1, nombreEquipo1, capitan1, nombreJug1, apellidoJug1);
+								}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 		} catch (ArithmeticException e) {
 

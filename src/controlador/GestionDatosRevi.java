@@ -2,8 +2,12 @@ package controlador;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,7 +24,7 @@ public class GestionDatosRevi {
 	private List<Revista> revistas;
 	private List<Autor> autores;
 	private List<Articulo> articulos;
-private String pathPersona="TrabajoGrupal/Datos/Revistas.txt";
+private String pathPersona="Datos/Revistas.dat";
 	
 
 public GestionDatosRevi(List<Revista> revistas, List<Autor> autores, List<Articulo> articulos, String pathPersona) {
@@ -57,41 +61,57 @@ public void newRevista(String nombreR,String idioma,String titulo,String nombreA
 	
 	revistas.add(re);
 	
-try{
-		
-		FileWriter file=new FileWriter(pathPersona,true);
-		BufferedWriter out=new BufferedWriter(file);
-		String registro=nombreR+" ; "+idioma+" ; "+titulo+" ; "+nombreAu+" ; "+apellidoAu+" | ";
-		
-		out.append(registro);
-		out.close();
-		file.close();
-		
-	}catch(IOException e){
-		e.printStackTrace();    
-	}
+	try{
+		  FileOutputStream file =  new FileOutputStream (pathPersona, true);
+		  DataOutputStream escritura = new DataOutputStream (file);
+
+		  escritura.writeUTF(nombreR);
+		  escritura.writeUTF(idioma);
+		  escritura.writeUTF(titulo);
+		  escritura.writeUTF(nombreAu);
+		  escritura.writeUTF(apellidoAu+".");
+		  escritura.close();
+		}catch(FileNotFoundException e){
+		  e.printStackTrace();
+		}
 
 }
 
 public String leerArchivos() throws Exception {
 	
-	FileReader arc = new FileReader(pathPersona);
-	BufferedReader lectura = new BufferedReader(arc);
-		String linea = "";
-		
-		while(linea != null) {
-			linea = lectura.readLine();
-			System.out.println(linea);
-			return linea;
-		}
-		lectura.close();
-	
-		String dir1 = pathPersona;
-		File txt = new File(dir1);
-		boolean existencia = txt.exists();
-		if (existencia == false) {
-			throw new Exception("El archivo no existe");
-		}
+	FileInputStream archivoLectura=null;
+	DataInputStream entrada=null;
+	try{
+	    String ruta=pathPersona;
+	    archivoLectura=new FileInputStream(ruta);
+	    entrada = new DataInputStream(archivoLectura);
+	    
+
+	    while(true){
+	    	
+	    	String nom=entrada.readUTF();
+	    	String nom1=entrada.readUTF();
+	    	String nom2=entrada.readUTF();
+	    	String nom3=entrada.readUTF();
+	    	String nom4=entrada.readUTF();
+
+	    	
+	    	System.out.print(nom);
+	    	System.out.print(nom1);
+	    	System.out.print(nom2);
+	    	System.out.print(nom3);
+	    	System.out.print(nom4);
+	    	
+	    	String imp= nom+ " ; "+nom1+" ; "+nom2+" ; "+nom3+" ; "+nom4;
+	    	imp.split(";");
+	    	
+	    	return imp;
+	   }
+	}catch(Exception e1){
+	    e1.printStackTrace();
+	}finally{
+	    entrada.close();
+	}
 	
 	return null;
 }

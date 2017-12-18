@@ -62,20 +62,6 @@ public void newEmpresa(String nombreE,String presidente,String cajera,String nom
 	
 	empresas.add(re);
 	
-//try{
-//		
-//		FileWriter file=new FileWriter(pathPersona,true);
-//		BufferedWriter out=new BufferedWriter(file);
-//		String registro=nombreE+" ; "+presidente+" ; "+cajera+" ; "+nombreEm+" ; "+apellidoEm+" | ";
-//		
-//		out.append(registro);
-//		out.close();
-//		file.close();
-//		
-//	}catch(IOException e){
-//		e.printStackTrace();    
-//	}
-//	 RandomAccessFile archivoEscritura = null;
 	try{
 		  FileOutputStream file =  new FileOutputStream (pathPersona, true);
 		  DataOutputStream escritura = new DataOutputStream (file);
@@ -84,35 +70,15 @@ public void newEmpresa(String nombreE,String presidente,String cajera,String nom
 		  escritura.writeUTF(presidente);
 		  escritura.writeUTF(cajera);
 		  escritura.writeUTF(nombreEm);
-		  escritura.writeUTF(apellidoEm);
-		  
+		  escritura.writeUTF(apellidoEm+".");
 		  escritura.close();
 		}catch(FileNotFoundException e){
 		  e.printStackTrace();
 		}
-cont++;
 }
 
 public String leerArchivos() throws Exception {
-	
-//	FileReader arc = new FileReader(pathPersona);
-//	BufferedReader lectura = new BufferedReader(arc);
-//		String linea = "";
-//		
-//		while(linea != null) {
-//			linea = lectura.readLine();
-//			System.out.println(linea);
-//			return linea;
-//		}
-//		lectura.close();
-//	
-//		String dir1 = pathPersona;
-//		File txt = new File(dir1);
-//		boolean existencia = txt.exists();
-//		if (existencia == false) {
-	
-//			throw new Exception("El archivo no existe");
-//		}
+
 	FileInputStream archivoLectura=null;
 	DataInputStream entrada=null;
 	try{
@@ -149,6 +115,7 @@ public String leerArchivos() throws Exception {
 	    	
 //	    	//return entrada.readUTF();
 	    	String imp= nom+ " ; "+nom1+" ; "+nom2+" ; "+nom3+" ; "+nom4;
+	    	imp.split(";");
 	    	String imp1= nom5+ " ; "+nom6+" ; "+nom7+" ; "+nom8+" ; "+nom9;
 	    	return imp+"\n"+imp1;
 	   }
